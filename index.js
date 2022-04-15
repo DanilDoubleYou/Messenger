@@ -22,7 +22,7 @@ app.use('/home/foo', function(request, response){
     response.sendStatus(404);
 });
 
-//home page
+//info page
 app.use("/info/", function(request, response){
     response.send("Info Page!");
   });
