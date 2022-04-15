@@ -29,12 +29,12 @@ app.use("/info/", function(request, response){
 
 //home page
 app.use("/home/", function(request, response){
-  response.send("Home Page");
+  response.send("Home Page!");
 });
 
 //main page
 app.get("/", function(request, response){
-    response.send("Main Page");
+    response.send("Main Page!");
 });
 
 //server start
