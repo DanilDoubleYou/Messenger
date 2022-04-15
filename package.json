@@ -8,5 +8,15 @@
   },
   "keywords": [],
   "author": "Danil Safronov",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.5"
+  },
+  "scripts": {
+    "dev" : "nodemon index"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
