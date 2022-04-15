@@ -23,6 +23,11 @@ app.use('/home/foo', function(request, response){
 });
 
 //home page
+app.use("/info/", function(request, response){
+    response.send("Info Page!");
+  });
+
+//home page
 app.use("/home/", function(request, response){
   response.send("Home Page");
 });
