@@ -4,17 +4,15 @@
   "description": "Web-Development Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "Danil Safronov",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
-    "express-handlebars": "^6.0.5"
-  },
-  "scripts": {
-    "dev" : "nodemon index"
+    "express-handlebars": "^6.0.5",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
