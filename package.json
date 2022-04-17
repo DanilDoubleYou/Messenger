@@ -8,6 +8,7 @@
   },
   "keywords": [],
   "author": "Danil Safronov",
+  "repository":"https://github.com/DanilDoubleYou/Messenger",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
