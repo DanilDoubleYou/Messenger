@@ -2,6 +2,8 @@
 const { response } = require("express");
 const express = require("express");
 const app = express();
+const serverRoutes = require('./routes/servers.js')
+const _path = require("path")
 
 //.env config
 require("dotenv").config();
@@ -21,6 +23,11 @@ const config = {
 //host config
 const host = 'localhost'
 const port = process.env.PORT ?? 80
+
+app.use(express.static(_path.resolve(__dirname, 'static')))
+
+//serverRoutes
+app.use(serverRoutes)
 
 //auth0 middleware
 app.use(auth(config));
