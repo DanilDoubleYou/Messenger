@@ -5,6 +5,10 @@ const app = express();
 const serverRoutes = require('./routes/servers.js')
 const _path = require("path")
 
+//ejs config
+app.set('view engine', 'ejs')
+app.set('views', _path.resolve(__dirname, 'ejs'))
+
 //.env config
 require("dotenv").config();
 
@@ -62,9 +66,19 @@ app.get("/home/", (req, res) => {
 
 //main page
 app.get("/", (req, res) => {
-    res.sendFile('public/main.html', {root: __dirname});
+    res.sendFile('static/main.html', {root: __dirname});
     //res.send("Main Page!");
 });
+
+//main page 2
+app.get('/m', (req, res) => {
+  res.render('index2', {title: 'Main Page'})
+})
+
+//features page
+app.get('/features', (req, res) => {
+  res.render('features', {title: 'Features Page'})
+})
 
 //server start
 app.listen(port, host, () =>  {
