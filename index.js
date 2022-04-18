@@ -8,6 +8,7 @@ require("dotenv").config();
 
 //auth0 config
 const { auth } = require('express-openid-connect');
+const { path } = require("express/lib/application");
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -19,14 +20,14 @@ const config = {
 
 //host config
 const host = 'localhost'
-const port = 7000
+const port = process.env.PORT ?? 80
 
 //auth0 middleware
 app.use(auth(config));
 
 //request user info (middleware)
-app.use(function(req, res, next){
-  
+app.use((req, res, next) => {
+
   console.log(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
   let now = new Date();
   let hour = now.getHours();
@@ -38,26 +39,27 @@ app.use(function(req, res, next){
 });
 
 //404 test page
-app.get('/home/foo', function(req, res){
+app.get('/home/foo', (req, res) => { 
     res.sendStatus(404);
 });
 
 //info page
-app.get("/info/", function(req, res){
+app.get("/info/", (req, res) => {
     res.send("Info Page!");
   });
 
 //home page
-app.get("/home/", function(req, res){
+app.get("/home/", (req, res) => {
   res.send("Home Page!");
 });
 
 //main page
-app.get("/", function(req, res){
-    res.send("Main Page!");
+app.get("/", (req, res) => {
+    res.sendFile('public/main.html', {root: __dirname});
+    //res.send("Main Page!");
 });
 
 //server start
-app.listen(port, host, function () {
+app.listen(port, host, () =>  {
   console.log(`Server listens http://${host}:${port}`)
 });
