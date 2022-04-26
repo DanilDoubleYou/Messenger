@@ -15,8 +15,8 @@
         </div>
         <ul class="list-group" v-else>
             <li class="list-group-item" v-for="server in servers">
-                <a :href="server.url"> {{ server.name }} </a> 
-                <strong>{{ server.status }}</strong>
+                <a :href="server.url"> {{ server.name }} </a>
+                <strong>&nbsp;{{ server.status }}</strong>
             </li>
         </ul>
     </div>
