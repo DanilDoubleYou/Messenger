@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Web-Development Project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon index"
   },
