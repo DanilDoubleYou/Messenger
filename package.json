@@ -5,19 +5,24 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index"
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"num run server\" \"num run client\""
   },
   "keywords": [],
   "author": "Danil Safronov",
   "repository": "https://github.com/DanilDoubleYou/Messenger",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
+    "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
-    "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-handlebars": "^6.0.5",
     "express-openid-connect": "^2.7.2",
     "mongoose": "^6.3.3",
+    "node-sass": "^7.0.1",
+    "npx": "^10.2.2",
     "request": "^2.88.2"
   },
   "devDependencies": {
