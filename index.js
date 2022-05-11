@@ -1,18 +1,25 @@
 //mongodb config
 import mongoose from "mongoose"
-
 //express config
 import express from "express";
 //.env config
 import 'dotenv/config'
 
+import router from './routes/auth.routes.js'
+
 const app = express();
+
+app.use(express.json({extended: true}));
 
 //host config
 const host = 'localhost'
-const port = process.env.PORT ?? 80
+const port = process.env.PORT
 
 //server&mongodb start
+
+
+
+//
 
 async function start()
 {
@@ -35,3 +42,14 @@ async function start()
 
 start()
 
+app.use((req, res, next) => {
+  let now = new Date();
+  let hour = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+  let data = `${hour}:${minutes}:${seconds} ${req.method} ${host}:${port}${req.url} request`; //${request.get("user-agent")}
+  console.log(data);
+  next();
+});
+
+app.use('/api/auth', router)
