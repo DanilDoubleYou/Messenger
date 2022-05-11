@@ -1,4 +1,8 @@
 import path from 'path'
+
+//mongodb config
+import mongoose from "mongoose"
+
 //express config
 import express from "express";
 import serverRoutes from './routes/servers.js';
@@ -49,7 +53,26 @@ app.use((req, res, next) => {
   next();
 });
 
-//server start
-app.listen(port, host, () =>  {
-  console.log(`Server listens http://${host}:${port}`)
-});
+//server&mongodb start
+
+async function start()
+{
+  try {
+    
+      await mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.ikpwi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+      })
+
+      app.listen(port, host, () =>  {
+        console.log(`Server listens http://${host}:${port}`)
+      })
+
+  } catch (e)
+  {
+    console.error(e);
+  }
+}
+
+start()
+
