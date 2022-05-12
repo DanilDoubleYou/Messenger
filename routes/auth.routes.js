@@ -11,7 +11,7 @@ router.post('/registration',
 async (req, res) => {
     
     try {
-
+        
         const errors = validationResult(req)
 
         if(!errors.isEmpty()) {
@@ -38,6 +38,7 @@ async (req, res) => {
         res.status(201).json({message: 'Пользователь создан'})
 
     } catch (e) {
+        res.status(500)
         console.error(e)
     }
 })
