@@ -8,7 +8,9 @@ import "./AuthPage.scss"
 const Authpage = () => {
     const [form, setForm] = useState({
         email: '',
-        password: ''
+        password: '',
+        firstName: '',
+        lastName: ''
     })
 
     const changeHandler = (event) => {
@@ -16,6 +18,7 @@ const Authpage = () => {
         console.log(form)
     }
 
+    const loginHandler = async() => {}
     const registerHandler = async () => {
         try {
             await axios.post('/api/auth/registration', {...form}, {
@@ -60,7 +63,7 @@ const Authpage = () => {
                                         <div className="row">
                                             <button
                                                 className='wawes-effect wawes-light btn blue'
-                                                onClick={registerHandler}>
+                                                onClick={loginHandler}>
                                                 Войти
                                             </button>
 
@@ -78,6 +81,7 @@ const Authpage = () => {
                                                         type="text" 
                                                         name="firstName"
                                                         className='validate'
+                                                        onChange={changeHandler}
                                                     />
                                                 <label htmlFor="name">Имя</label>
                                                 </div>
@@ -86,6 +90,7 @@ const Authpage = () => {
                                                         type="text" 
                                                         name="lastName"
                                                         className='validate'
+                                                        onChange={changeHandler}
                                                     />
                                                 <label htmlFor="surname">Фамилия</label>
                                                 </div>
