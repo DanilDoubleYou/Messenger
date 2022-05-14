@@ -77,7 +77,7 @@ async (req, res) => {
         const user = await UserLoginInfo.findOne({email})
 
         if (!user) {
-            return res.status(400).json({
+            return res.status(401).json({
                 message: 'User not found'
             })
         }
@@ -96,7 +96,7 @@ async (req, res) => {
                 })
             } else {
               // response is OutgoingMessage object that server response http request
-              return res.status(400).json({success: false, message: 'Password does not match'});
+              return res.status(401).json({success: false, message: 'Password does not match'});
             }
         });
 
