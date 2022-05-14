@@ -1,15 +1,25 @@
-import logo from './logo.svg';
 import './App.scss';
-
+import {BrowserRouter} from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar';
-import Authpage from './pages/AuthPage/AuthPage';
+import {useRoutes} from './routes'
+import {authContext} from './context/AuthContext'
+import {useAuth} from './hooks/AuthHook'
 
 function App() {
+  const {login, logout, token, userId, isReady} = useAuth()
+  
+  const isLogin = !!token
+  const routes = useRoutes(isLogin)
+
   return (
-    <div className="App">
-      <Navbar />
-      <Authpage />
-    </div>
+    <authContext.Provider value={{login, logout, token, userId, isReady, isLogin}}>
+      <div className="App">
+        <BrowserRouter>
+          <Navbar />
+          { routes }
+        </BrowserRouter>
+      </div>
+    </authContext.Provider>
   );
 }
 
