@@ -4,23 +4,31 @@ import mongoose from "mongoose"
 import express from "express";
 //.env config
 import 'dotenv/config'
-
+//api/auth router
 import router from './routes/auth.routes.js'
 
 const app = express();
 
 app.use(express.json({extended: true}));
 
+app.use((req, res, next) => {
+  let now = new Date();
+  let hour = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+  let data = `${hour}:${minutes}:${seconds} ${req.method} ${host}:${port}${req.url} request`;
+  console.log(data);
+  next();
+});
+
+//login and registration requests
+app.use('/api/auth', router)
+
 //host config
 const host = 'localhost'
 const port = process.env.PORT
 
-//server&mongodb start
-
-
-
-//
-
+//server & mongodb start function
 async function start()
 {
   try {
@@ -34,22 +42,7 @@ async function start()
         console.log(`Server listens http://${host}:${port}`)
       })
 
-  } catch (e)
-  {
-    console.error(e);
-  }
+  } catch (e) {console.error(e);}
 }
 
 start()
-
-app.use((req, res, next) => {
-  let now = new Date();
-  let hour = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-  let data = `${hour}:${minutes}:${seconds} ${req.method} ${host}:${port}${req.url} request`; //${request.get("user-agent")}
-  console.log(data);
-  next();
-});
-
-app.use('/api/auth', router)
