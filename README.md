@@ -4,7 +4,7 @@
 
 Установка зависимостей:
 ```
-cd Messenger && npm install && cd client/ && npm install
+git clone https://github.com/DanilDoubleYou/Messenger && cd Messenger && npm install && cd client/ && npm install
 ```
 
 .env:
