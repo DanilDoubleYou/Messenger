@@ -1,15 +1,15 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Authpage from './pages/AuthPage/AuthPage';
-import MainPage from './pages/MainPage/MainPage';
+import Messenger from './pages/Mesenger/Messenger';
 
 export const useRoutes = (isLogin) => {
 
     if (isLogin) {
         return (
             <Switch>
-                <Route path="/" exact component={MainPage} />
-                <Redirect to="/" />
+                <Route path="/chat" exact component={Messenger} />
+                <Redirect to="/chat" />
             </Switch>
         )
     } else {
