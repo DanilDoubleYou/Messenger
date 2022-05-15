@@ -8,7 +8,7 @@ const Navbar = () => {
     return (
         <nav>
             <div className="nav-wrapper navbar blue">
-                <a href="/" className="brand-logo">Чат</a>
+                <a href="/chat" className="brand-logo">Чат</a>
                 {
                     isLogin 
                     ?   <ul id="nav-mobile" className="right hide-on-med-and-down">
