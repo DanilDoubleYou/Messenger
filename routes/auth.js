@@ -1,12 +1,13 @@
 import Router from "express"
 import User from "../models/User.js"
-import {check, validationResult} from 'express-validator'
+import {body, check, validationResult} from 'express-validator'
 import bcrypt from "bcryptjs" ///dist/bcrypt
 import jsonwebtoken from 'jsonwebtoken'
 import { env } from 'process';
-const router = new Router()
 
-router.post('/registration', 
+const authRouter = new Router()
+
+authRouter.post('/registration', 
 [
     check('email', 'Некорректный e-mail').isEmail(),
     check('password', 'Некорректный пароль').isLength({min: 6}),
@@ -58,7 +59,7 @@ async (req, res) => {
     }
 })
 
-router.post('/login',
+authRouter.post('/login',
 [
     check('email', 'Некорректный e-mail').isEmail(),
     check('password', 'Некорректный пароль').exists()
@@ -74,10 +75,13 @@ async (req, res) => {
                 message: 'Некорректные данные при авторизации'
             })
         }
+        console.log(req.body)
 
-        const {email, password} = req.body
+        const mail = req.body.email
+        console.log(mail)
+        const user = await User.findOne({email: mail})
 
-        const user = await User.findOne({email})
+        console.log(user)
 
         if (!user) {
             return res.status(401).json({
@@ -91,7 +95,6 @@ async (req, res) => {
             }
             if (response) {
                 const jwtSecret = env.JWTSECRET
-                console.log(jwtSecret)
                 const token = jsonwebtoken.sign({userID: user.id}, jwtSecret, {expiresIn: '1h'})
                 res.json({
                     token: token,
@@ -110,4 +113,4 @@ async (req, res) => {
 })
 
 
-export default router
+export default authRouter

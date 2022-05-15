@@ -7,8 +7,8 @@ const UserSchema = new Schema({
     email : { required: true, unique: true, type: String},
     password: { required: true, type: String},
     avatar: { type: String},
-    groups: [{ name: String, reference : {type: Schema.Types.ObjectId,ref: "Group"}}],
+    groups: [{ name: String, reference : {type: Schema.Types.ObjectId, ref: "Group"}}],
     friends: [{type: Schema.Types.ObjectId,ref : "User"}]
-})
+}, {timestamps: true})
 
 export default model('User', UserSchema)

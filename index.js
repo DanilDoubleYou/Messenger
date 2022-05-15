@@ -5,7 +5,7 @@ import express from "express";
 //.env config
 import 'dotenv/config'
 //api/auth router
-import router from './routes/auth.routes.js'
+import router from './routes/router.js'
 
 const app = express();
 
@@ -21,8 +21,8 @@ app.use((req, res, next) => {
   next();
 });
 
-//login and registration requests
-app.use('/api/auth', router)
+//all post requests
+app.use('/api', router)
 
 //host config
 const host = 'localhost'
@@ -38,7 +38,7 @@ async function start()
           useUnifiedTopology: true
       })
 
-      app.listen(port, host, () =>  {
+      app.listen(port, () =>  {
         console.log(`Server listens http://${host}:${port}`)
       })
 
