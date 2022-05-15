@@ -85,7 +85,6 @@ const Authpage = () => {
                                             <label htmlFor="password">Пароль</label>
                                         </div>
                                     </div>
-
                                     <div className="row">
                                         <button
                                             className='wawes-effect wawes-light btn blue'
@@ -99,7 +98,6 @@ const Authpage = () => {
                             <Route path="/registration">
                                 <h3>Регистрация</h3>
                                 <form className='form form-login' onSubmit={e => e.preventDefault()}>
-                                    <div className="row">
                                         <div className="row">
                                             <div className="input-field col s12">
                                                 <input 
@@ -119,7 +117,6 @@ const Authpage = () => {
                                                 />
                                             <label htmlFor="surname">Фамилия</label>
                                             </div>
-                                        </div>
                                         
                                         <div className="input-field col s12">
                                     <input 

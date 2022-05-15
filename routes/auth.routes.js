@@ -1,5 +1,5 @@
 import Router from "express"
-import UserLoginInfo from "../models/UserLoginInfo.js"
+import User from "../models/User.js"
 import {check, validationResult} from 'express-validator'
 import bcrypt from "bcryptjs" ///dist/bcrypt
 import jsonwebtoken from 'jsonwebtoken'
@@ -26,9 +26,9 @@ async (req, res) => {
             })
         }
 
-        const {email, password} = req.body
+        const {email, password, firstName, lastName} = req.body
         
-        const isUsed = await UserLoginInfo.findOne({email})
+        const isUsed = await User.findOne({email})
 
         if (isUsed) {
             return res.status(300).json({message: 'E-mail уже занят'})
@@ -36,15 +36,18 @@ async (req, res) => {
 
         const hashPass = await bcrypt.hash(password, 12)
 
-        const userLoginInfo = new UserLoginInfo({
-            email, password: hashPass
+        const user = new User({
+            firstName: firstName, 
+            lastName: lastName,
+            email: email, 
+            password: hashPass
         })
         
-        console.log(`Trying to add user: ${userLoginInfo}`)
+        console.log(`Trying to add user: ${user}`)
 
-        await userLoginInfo.save()
+        await user.save()
 
-        console.log(`User successfully added with unique id ${userLoginInfo._id}`)
+        console.log(`User successfully added with unique id ${user._id}`)
 
         res.status(201).json({message: 'Пользователь создан'})
 
@@ -74,7 +77,7 @@ async (req, res) => {
 
         const {email, password} = req.body
 
-        const user = await UserLoginInfo.findOne({email})
+        const user = await User.findOne({email})
 
         if (!user) {
             return res.status(401).json({
@@ -95,10 +98,9 @@ async (req, res) => {
                     userId: user.id,
                 })
             } else {
-              // response is OutgoingMessage object that server response http request
               return res.status(401).json({success: false, message: 'Password does not match'});
             }
-        });
+        })
 
     } catch (e) {
         res.status(500)

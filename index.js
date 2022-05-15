@@ -33,7 +33,7 @@ async function start()
 {
   try {
     
-      await mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.ikpwi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
+      await mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.ikpwi.mongodb.net/messenger?retryWrites=true&w=majority`, {
           useNewUrlParser: true,
           useUnifiedTopology: true
       })
