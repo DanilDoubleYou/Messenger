@@ -1,13 +1,30 @@
 import "./Conversations.scss"
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 
-const Conversations = () => {
+const Conversations = ({conversation, currentUserId}) => {
+
+    const [user, setUser] = useState(null)
+    
+    useEffect(() => {
+        const friendId = conversation.members.find((m) => m !== currentUserId)
+        const getUser = async () => {
+            try{
+                const res = await axios("/api/user?userId="+friendId)
+                setUser(res.data)
+            } catch (e) {
+                console.error(e)
+            }
+        }
+        getUser()
+    }, [currentUserId, conversation])
+
     return (
         <div className="conversation">
             <img className="conversation-avatar" 
-            src="https://sun3-17.userapi.com/s/v1/ig2/2hkp8CYy6PGKKYLQNz5OxWucPBEHS2U7eAlK2H9fMjPgf1dd6Ml1ayGrvUYN1UOYdFUDggyaemYjFJ7l-hp8K91H.jpg?size=200x200&quality=95&crop=1,0,734,734&ava=1" 
+            src={user ? user.avatar ? user.avatar : "http://localhost:3000/images/user/noAvatar.png" : ""}
             alt="" />
-            <span className="conversation-name">Danil Safronov</span>
+            <span className="conversation-name"> { user ? `${user.firstName} ${user.lastName}` : "" } </span>
         </div>
     );
 }
