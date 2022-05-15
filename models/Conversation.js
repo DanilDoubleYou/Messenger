@@ -3,8 +3,7 @@ const { Schema, model, Types } = pkg;
 
 const ConversationSchema = new Schema({
     members: {
-        type: Array,
-        unique: true                    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+        type: Array
     },
 }, {timestamps: true})
 
