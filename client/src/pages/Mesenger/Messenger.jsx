@@ -61,13 +61,15 @@ const Messenger = () => {
     useEffect(() => {
       scrollRef.current?.scrollIntoView({behavior: "smooth"})
     }, [messages])
-
+    //
     return (
         <div className="messenger">
             <div className="blank" />
             <div className="chatMenu">
                 <div className="chatMenuWrapper">
-                    <input placeholder='Search for friends' className="chatMenuInput" type="text"></input>
+                    {/*
+                     <input placeholder='Поиск' className="chatMenuInput" type="text"></input>
+                    */}
                     {conversations.map(c=>(
                         <div onClick={() =>setCurrentChat(c)}>
                             <Conversations conversation={c} currentUserId={userId}/>
