@@ -1,6 +1,21 @@
 # Educational Practice && Web-Development (Node.Js, Express, React, MongoDB)
 
-## Запуск программы
+## Инициализация
+
+Установка зависимостей:
+```
+git clone https://github.com/DanilDoubleYou/Messenger && cd Messenger && npm install && cd client/ && npm install
+```
+
+.env:
+```
+PORT=SERVER_PORT_LISTEN
+username=MONGODB_USERNAME
+password=MONGODB_PASSWORD
+JWTSECRET=JWT_UUID_SECRET
+```
+
+## Запуск
 
 Запустить сервер и клиент:
 ```
