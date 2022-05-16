@@ -26,7 +26,8 @@
     "mongoose": "^6.3.3",
     "node-sass": "^7.0.1",
     "npx": "^10.2.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "timeago-react": "^3.0.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
