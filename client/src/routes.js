@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Authpage from './pages/AuthPage/AuthPage';
-import Messenger from './pages/Mesenger/Messenger';
+import Messenger from './pages/Messenger/Messenger';
 
 export const useRoutes = (isLogin) => {
 
