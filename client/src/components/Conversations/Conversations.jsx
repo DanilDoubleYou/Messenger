@@ -26,7 +26,7 @@ const Conversations = ({conversation, currentUserId}) => {
             <img className="conversation-avatar" 
             src={friend ? friend.avatar ? friend.avatar : "http://localhost:3000/images/user/noAvatar.png" : ""}
             alt="" />
-            <span className="conversation-name"> { friend ? `${friend.firstName} ${friend.lastName}` : "" } </span>
+            <span className="conversation-name"> { friend ? `${friend.lastName} ${friend.firstName}` : "" } </span>
         </div>
     );
 }

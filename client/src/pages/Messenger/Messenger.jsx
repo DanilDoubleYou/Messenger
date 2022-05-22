@@ -76,7 +76,7 @@ const Messenger = () => {
             }
         }
         getData();
-      }, [userId])
+      }, [userId, currentChat])
 
       useEffect(() => {
         const getMessages = async () => {
@@ -129,9 +129,7 @@ const Messenger = () => {
             <div className="blank" />
             <div className="chatMenu">
                 <div className="chatMenuWrapper">
-                    {/*
-                     <input placeholder='Поиск' className="chatMenuInput" type="text"></input>
-                    */}
+                    <div className="chatBoxInfoWrapper"> Недавние диалоги </div>
                     {conversations.map(c=>(
                         <div onClick={() =>setCurrentChat(c)}>
                             <Conversations conversation={c} currentUserId={userId}/>
@@ -146,10 +144,10 @@ const Messenger = () => {
                     <>
                         <div className="chatBoxInfoWrapper">
                             <div className="chatBoxInfoAvatar">
-                                <img className="currentChatUserAvatar" src={currentChatUser?.avatar} />
+                                <img className="currentChatUserAvatar" src={localStorage.getItem(currentChatUser?._id)} />
                             </div>
                             <div className="chatBoxInfoName">
-                                {currentChatUser?.lastName + " " + currentChatUser?.firstName}
+                                {currentChatUser ? currentChatUser?.lastName + " " + currentChatUser?.firstName : ""}
                             </div>
                         </div>
                         <div className="chatBoxTop">
@@ -172,11 +170,12 @@ const Messenger = () => {
                         </div>
                     </> 
                     : 
-                    <span className="noConversation"> Open a conversation to start a chat</span> }
+                    <span className="noConversation"> Open a conversation to start a chat </span>}
                 </div>
             </div>
             <div className="chatOnline">
                 <div className="chatOnlineWrapper">
+                    <div className="chatBoxInfoWrapper">Все пользователи</div> 
                     <ChatOnline onlineUsers={onlineUsers} currentUserId={userId} setCurrentChat={setCurrentChat}/>
                 </div>
             </div>

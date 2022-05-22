@@ -8,7 +8,6 @@ conversationRouter.post("/", async (req, res) => {
         members: [req.body.senderId, req.body.receiverId]
     })
     try{
-
         const savedConversation = await newConversation.save()
         res.status(200).json(savedConversation)
 
@@ -18,12 +17,32 @@ conversationRouter.post("/", async (req, res) => {
     }
 })
 
-//get conversation
+//get all user conversations
 conversationRouter.get("/:userId", async (req, res) => {
     try{
         const conversation = await Conversation.find({
             members: { $in:[req.params.userId] },
         })
+        
+        res.status(200).json(conversation)
+    } catch(e) {
+        console.error(e)
+    }
+})
+
+//get conversation between two users
+conversationRouter.get("/find/:firstUserId/:secondUserId", async (req, res) => {
+    try {
+        const conversation = await Conversation.findOne({
+            members: { $all:[req.params.firstUserId, req.params.secondUserId]}
+        })
+        if (!conversation) {
+            const newConversation = new Conversation({
+                members: [req.params.firstUserId, req.params.secondUserId]
+            })
+            const savedConversation = await newConversation.save()
+            res.status(200).json(savedConversation)
+        }
         res.status(200).json(conversation)
     } catch(e) {
         console.error(e)

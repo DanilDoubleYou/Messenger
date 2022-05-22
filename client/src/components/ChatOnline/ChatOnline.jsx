@@ -1,22 +1,45 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 import '../../components/ChatOnline/ChatOnline.scss'
 
 const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
     
-    
+    const [allUsers, setAllUsers] = useState([])
+
+    useEffect(() =>{
+        const getAllUsers = async () => {
+          const res = await axios.get("/api/user/all")
+          setAllUsers(res.data.filter((user) => user._id !== currentUserId))
+        }
+        getAllUsers()
+    }, [currentUserId, onlineUsers])
+
+    const handleClick = async (userId) => {
+         try {
+            const res = await axios.get(`/api/conversation/find/${currentUserId}/${userId}`)
+            setCurrentChat(res.data)
+         } catch (e) {
+             console.error(e)
+         }
+    }
+
     return (
         <div className='chatOnlineContainer'>
-            <div className="chatOnlineFriend">
-                <div className="chatOnlineAvatarContainer">
-                    <img 
-                    className='chatOnlineAvatar'
-                    src="https://sun3-17.userapi.com/s/v1/ig2/2hkp8CYy6PGKKYLQNz5OxWucPBEHS2U7eAlK2H9fMjPgf1dd6Ml1ayGrvUYN1UOYdFUDggyaemYjFJ7l-hp8K91H.jpg?size=200x200&quality=95&crop=1,0,734,734&ava=1"
-                    alt=""
-                    />
-                    <div className="chatOnlineBadge" />
+            {allUsers.map((user) => (
+                <div className="chatOnlineFriend"
+                onClick={() => handleClick(user._id)}
+                >
+                    <div className="chatOnlineAvatarContainer">
+                        <img 
+                        className='chatOnlineAvatar'
+                        src={user.avatar}
+                        alt=""
+                        />
+                        <div className="chatOnlineBadge" />
+                    </div>    
+                    <span className="chatOnlineName">{user.lastName + ' ' + user.firstName}</span>
                 </div>    
-                <span className="chatOnlineName">Danil Safronov</span>
-            </div>            
+            ))}        
         </div>
     );
 }
