@@ -14,19 +14,18 @@ const Authpage = () => {
         email: '',
         password: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        avatar: ''
     })
 
     const { login } = useContext(authContext)
 
     const changeRegHandler = (event) => {
         setRegForm({...regForm, [event.target.name]:event.target.value})
-        console.log(regForm)
     }
     
     const changeLogHandler = (event) => {
         setLogForm({...logForm, [event.target.name]:event.target.value})
-        console.log(logForm)
     }
 
     const loginHandler = async() => {
@@ -106,8 +105,9 @@ const Authpage = () => {
                                                     className='validate valid'
                                                     onChange={changeRegHandler}
                                                 />
-                                            <label htmlFor="name">Имя</label>
+                                                <label htmlFor="name">Имя</label>
                                             </div>
+
                                             <div className="input-field col s12">
                                                 <input 
                                                     type="text" 
@@ -115,38 +115,46 @@ const Authpage = () => {
                                                     className='validate'
                                                     onChange={changeRegHandler}
                                                 />
-                                            <label htmlFor="surname">Фамилия</label>
+                                                <label htmlFor="surname">Фамилия</label>
                                             </div>
-                                        
-                                        <div className="input-field col s12">
-                                    <input 
-                                        type="email" 
-                                        name="email"
-                                        className='validate'
-                                        onChange={changeRegHandler}
-                                    />
-                                <label htmlFor="email">Почта</label>
+                                            <div className="input-field col s12">
+                                                <input 
+                                                    type="text" 
+                                                    name="avatar"
+                                                    className='validate'
+                                                    onChange={changeRegHandler}
+                                                />
+                                                <label htmlFor="avatar">Ссылка на аватар (опционально)</label>
+                                            </div>
+                                            <div className="input-field col s12">
+                                                <input 
+                                                    type="email" 
+                                                    name="email"
+                                                    className='validate'
+                                                    onChange={changeRegHandler}
+                                                />
+                                                <label htmlFor="email">Почта</label>
+                                            </div>
+                                            <div className="input-field col s12">
+                                                <input 
+                                                    type="password" 
+                                                    name="password"
+                                                    className='validate'
+                                                    onChange={changeRegHandler}
+                                                />
+                                                <label htmlFor="password">Пароль</label>
+                                            </div>
                                         </div>
-                                        <div className="input-field col s12">
-                                    <input 
-                                        type="password" 
-                                        name="password"
-                                        className='validate'
-                                        onChange={changeRegHandler}
-                                    />
-                                <label htmlFor="password">Пароль</label>
-                                        </div>
-                                    </div>
 
-                                    <div className="row">
-                                        <button
-                                        className='wawes-effect wawes-light btn blue'
-                                        onClick={registerHandler}>
-                                            Зарегистрироваться
-                                        </button>
+                                        <div className="row">
+                                            <button
+                                            className='wawes-effect wawes-light btn blue'
+                                            onClick={registerHandler}>
+                                                Зарегистрироваться
+                                            </button>
 
                                         <Link className="btn-outline btn-reg" to="/login">Уже есть аккаунт?</Link>
-                                    </div>
+                                        </div>
                                 </form>
                             </Route>
                         </div>

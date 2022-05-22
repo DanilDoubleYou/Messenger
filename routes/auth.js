@@ -15,7 +15,17 @@ authRouter.post('/registration',
     check('firstName', 'Некорректное имя').isLength({min: 3})
 ], 
 async (req, res) => {
-    
+
+    function isValidHttpUrl(string) {
+        let url;
+        
+        try {
+          url = new URL(string);
+        } catch (_) {
+          return false;  
+        }
+    }
+
     try {
         
         const errors = validationResult(req)
@@ -27,7 +37,7 @@ async (req, res) => {
             })
         }
 
-        const {email, password, firstName, lastName} = req.body
+        const {email, password, firstName, lastName, avatar} = req.body
         
         const isUsed = await User.findOne({email})
 
@@ -37,13 +47,23 @@ async (req, res) => {
 
         const hashPass = await bcrypt.hash(password, 12)
 
-        const user = new User({
-            firstName: firstName, 
-            lastName: lastName,
-            email: email, 
-            password: hashPass
-        })
-        
+        const user = isValidHttpUrl(avatar) 
+            ? 
+              new User({
+                firstName: firstName, 
+                lastName: lastName,
+                email: email, 
+                password: hashPass,
+                avatar: avatar
+            }) 
+            :
+            new User({
+                firstName: firstName, 
+                lastName: lastName,
+                email: email, 
+                password: hashPass
+            })
+
         console.log(`Trying to add user: ${user}`)
 
         await user.save()
