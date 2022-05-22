@@ -170,7 +170,7 @@ const Messenger = () => {
                         </div>
                     </> 
                     : 
-                    <span className="noConversation"> Open a conversation to start a chat </span>}
+                    <span className="noConversation"> Выберите чат чтобы начать общение </span>}
                 </div>
             </div>
             <div className="chatOnline">
