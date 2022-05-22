@@ -1,7 +1,7 @@
 import Router from "express"
 import User from "../models/User.js"
 import {body, check, validationResult} from 'express-validator'
-import bcrypt from "bcryptjs" ///dist/bcrypt
+import bcrypt from "bcryptjs"
 import jsonwebtoken from 'jsonwebtoken'
 import { env } from 'process';
 
@@ -9,11 +9,11 @@ const authRouter = new Router()
 
 authRouter.post('/registration', 
 [
-    check('email', 'Некорректный e-mail').isEmail(),
-    check('password', 'Некорректный пароль').isLength({min: 6}),
-    check('lastName', 'Некорректная фамилия').isLength({min: 3}),
-    check('firstName', 'Некорректное имя').isLength({min: 3})
-], 
+    check('email', 'Несуществующий e-mail').isEmail(),
+    check('password', 'Некорректная длина пароля (мин. 6 символов)').isLength({min: 6}),
+    check('lastName', 'Некорректная фамилия').exists(),
+    check('firstName', 'Некорректное имя').exists()
+],
 async (req, res) => {
 
     function isValidHttpUrl(string) {
@@ -64,17 +64,17 @@ async (req, res) => {
                 password: hashPass
             })
 
-        console.log(`Trying to add user: ${user}`)
-
         await user.save()
 
-        console.log(`User successfully added with unique id ${user._id}`)
-
-        res.status(201).json({message: 'Пользователь создан'})
+        const jwtSecret = env.JWTSECRET
+        const token = jsonwebtoken.sign({userID: user.id}, jwtSecret, {expiresIn: '1h'})
+        res.json({
+            token: token,
+            userId: user.id,
+        })
 
     } catch (e) {
         res.status(500)
-        console.log("Status 500 returned")
         console.error(e)
     }
 })
@@ -95,17 +95,14 @@ async (req, res) => {
                 message: 'Некорректные данные при авторизации'
             })
         }
-        console.log(req.body)
 
         const mail = req.body.email
-        console.log(mail)
+        
         const user = await User.findOne({email: mail})
-
-        console.log(user)
 
         if (!user) {
             return res.status(401).json({
-                message: 'User not found'
+                message: 'Пользователь с данным e-mail не найден'
             })
         }
         
@@ -121,13 +118,12 @@ async (req, res) => {
                     userId: user.id,
                 })
             } else {
-              return res.status(401).json({success: false, message: 'Password does not match'});
+              return res.status(401).json({success: false, message: 'Пароли не совпадают'});
             }
         })
 
     } catch (e) {
         res.status(500)
-        console.log("Status 500 returned")
         console.error(e)
     }
 })

@@ -1,10 +1,12 @@
-import React, {useState, useContext} from 'react'
-import { BrowserRouter , Switch, Route, Link } from 'react-router-dom'
+import React, {useState, useContext, useEffect} from 'react'
+import { BrowserRouter , Switch, Route, Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import "./AuthPage.scss"
 import { authContext } from '../../context/AuthContext.js'
 
 const Authpage = () => {
+    const [loginError, setLoginError] = useState("")
+
     const [logForm, setLogForm] = useState({
         email: '',
         password: ''
@@ -17,6 +19,8 @@ const Authpage = () => {
         lastName: '',
         avatar: ''
     })
+
+    useEffect(() => {setLoginError("")}, [logForm])
 
     const { login } = useContext(authContext)
 
@@ -39,7 +43,8 @@ const Authpage = () => {
                 login(response.data.token, response.data.userId)
             })
         } catch (e) {
-            console.error(e)
+            setLoginError(e.response.data.message)
+            console.error(e.response.data.message)
         }
     }
 
@@ -49,11 +54,13 @@ const Authpage = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })            
-            .then(response => console.log(response))
+            })
+            .then(response => {
+                login(response.data.token, response.data.userId)
+            })
         } catch (e)
         {
-            console.error(e)
+            console.error(e.response.data.message)
         }
     }
 
@@ -92,6 +99,7 @@ const Authpage = () => {
                                         </button>
                                         <Link to="/registration" className="btn-outline btn-reg"> Еще нет аккаунта? </Link>
                                     </div>
+                                    <div className="error-message"> {loginError} </div>
                                 </form>
                             </Route>
                             <Route path="/registration">
