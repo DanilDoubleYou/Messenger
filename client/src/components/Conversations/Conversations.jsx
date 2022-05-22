@@ -1,6 +1,6 @@
 import "./Conversations.scss"
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 
 const Conversations = ({conversation, currentUserId}) => {
 
@@ -12,11 +12,16 @@ const Conversations = ({conversation, currentUserId}) => {
             try{
                 const res = await axios("/api/user?userId="+friendId)
                 setUser(res.data)
+
+                localStorage.setItem(res.data._id, res.data.avatar)
             } catch (e) {
                 console.error(e)
             }
         }
         getUser()
+
+        
+
     }, [currentUserId, conversation])
 
     return (

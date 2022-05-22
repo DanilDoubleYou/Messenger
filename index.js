@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 app.use('/api', router)
 
 //host config
-const host = '127.0.0.1'
+const host = 'localhost'
 const port = process.env.PORT
 
 //server & mongodb start function
@@ -38,11 +38,11 @@ async function start()
           useUnifiedTopology: true
       })
 
-      app.listen(port, host, () =>  {
+      app.listen(port, () =>  {
         console.log(`Server listens http://${host}:${port}`)
       })
 
-  } catch (e) {console.error(e);}
+  } catch (e) {console.error(e)}
 }
 
 start()

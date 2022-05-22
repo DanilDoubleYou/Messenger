@@ -1,7 +1,9 @@
 import React from 'react'
 import '../../components/ChatOnline/ChatOnline.scss'
 
-const ChatOnline = () => {
+const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
+    
+    
     return (
         <div className='chatOnlineContainer'>
             <div className="chatOnlineFriend">

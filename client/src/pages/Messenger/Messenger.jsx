@@ -6,15 +6,65 @@ import sendButton from '../../assets/images/sendButton.png'
 import ChatOnline from '../../components/ChatOnline/ChatOnline';
 import { authContext } from '../../context/AuthContext';
 import axios from 'axios';
+import {io, Socket} from "socket.io-client"
+
 
 const Messenger = () => {
     const [currentChat, setCurrentChat] = useState(null)
     const [messages, setMessages] = useState([])
     const [conversations, setConversations] = useState([])
     const [newMessage, setNewMessage] = useState("")
+    const [arrivalMessage, setArrivalMessage] = useState(null)
+    const [onlineUsers, setonlineUsers] = useState([])
     const {userId} = useContext(authContext)
-    const scrollRef = useRef()
     
+    const scrollRef = useRef()
+
+    const socket = useRef()
+
+    useEffect(() => {
+
+        const setUserAvatar = async () => {
+            if (!localStorage.getItem(userId)){
+                try{
+                    const res = await axios("/api/user?userId="+userId)
+                    console.log(res)
+                    localStorage.setItem(userId, res.data.avatar)
+                } catch(e){
+                    console.error(e)
+                }
+            }
+        }
+
+        setUserAvatar();
+    }, [])
+
+    useEffect(() => {
+        socket.current = io("ws://localhost:8000")
+        socket.current.on("getMessage", data => {
+            setArrivalMessage({
+                sender: data.senderId,
+                text: data.text,
+                createdAt: Date.now(),
+            })
+        })
+        
+    }, [])
+
+    useEffect(() => {
+        arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
+            setMessages((prev) => [...prev, arrivalMessage])
+    }, [arrivalMessage, currentChat])
+
+    useEffect(() => {
+        socket.current.emit("addUser", userId)
+        socket.current.on("getUsers", users => {
+            setonlineUsers(users)
+        })
+    }, [userId])
+
+    
+
     useEffect(() => {
         const getData = async () => {
             try{
@@ -42,12 +92,20 @@ const Messenger = () => {
       }, [currentChat])
 
       const handleSubmit = async (e) => {
-          //e.preventDefault()
+          
             const message = {
                 sender: userId,
                 text: newMessage,
                 conversationId: currentChat._id
             }
+
+            const receiverId = currentChat.members.find(member => member !== userId)
+
+            socket.current.emit("sendMessage", {
+                senderId: userId,
+                receiverId,
+                text: newMessage
+            })
 
             try{
                 const res = await axios.post("/api/message", message)
@@ -58,9 +116,9 @@ const Messenger = () => {
             }
         }
 
-    useEffect(() => {
-      scrollRef.current?.scrollIntoView({behavior: "smooth"})
-    }, [messages])
+        useEffect(() => {
+          scrollRef.current?.scrollIntoView({behavior: "smooth"})
+        }, [messages])
     //
     return (
         <div className="messenger">
@@ -83,7 +141,10 @@ const Messenger = () => {
                     <div className="chatBoxTop">
                         {messages.map(m=>(
                             <div ref={scrollRef}>
-                                <Message message={m} own={m.sender === userId} pictureUrl={m.sender}/>
+                                <Message 
+                                message={m} 
+                                own={m.sender === userId}
+                                />
                             </div>
                         ))}
                     </div>
@@ -99,6 +160,7 @@ const Messenger = () => {
             </div>
             <div className="chatOnline">
                 <div className="chatOnlineWrapper">
+                    <ChatOnline onlineUsers={onlineUsers} currentUserId={userId} setCurrentChat={setCurrentChat}/>
                 </div>
             </div>
             <div className="blank" />

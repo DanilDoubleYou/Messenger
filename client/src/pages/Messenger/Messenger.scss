@@ -3,8 +3,8 @@
     display: flex;
 }
 
-.blank{
-    flex:1.75;
+.blank {
+    flex:3.75;
 }
 
 .chatMenu {
@@ -73,7 +73,7 @@
 }
 
 .chatOnline {
-    flex: 3;
+    flex: 2;
     margin-top: 20px;
     border-radius: 5px;
     border: 1px solid #000;
@@ -106,10 +106,6 @@
 
 .chatBox{
     flex: 10;
-}
-
-.chatOnline{
-    flex: 1px;
 }
 
 }
