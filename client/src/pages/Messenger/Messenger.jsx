@@ -14,6 +14,7 @@ const Messenger = () => {
     const [messages, setMessages] = useState([])
     const [conversations, setConversations] = useState([])
     const [newMessage, setNewMessage] = useState("")
+    const [currentChatUser, setCurrentChatUser] = useState(null)
     const [arrivalMessage, setArrivalMessage] = useState(null)
     const [onlineUsers, setonlineUsers] = useState([])
     const {userId} = useContext(authContext)
@@ -83,11 +84,14 @@ const Messenger = () => {
                 if(currentChat){
                     const res = await axios.get("/api/message/"+currentChat?._id)
                     setMessages(res.data)
+                    const res2 = await axios.get("/api/user?userId="+(currentChat.members.find((m) => m !== userId)))
+                    setCurrentChatUser(res2.data)
                 }
             } catch (e) {
                 console.error(e)
             }
         }
+
         getMessages()
       }, [currentChat])
 
@@ -137,25 +141,38 @@ const Messenger = () => {
             </div>
             <div className="chatBox">
                 <div className="chatBoxWrapper">
-                    {currentChat ? <>
-                    <div className="chatBoxTop">
-                        {messages.map(m=>(
-                            <div ref={scrollRef}>
-                                <Message 
-                                message={m} 
-                                own={m.sender === userId}
-                                />
+                    {currentChat 
+                    ? 
+                    <>
+                        <div className="chatBoxInfoWrapper">
+                            <div className="chatBoxInfoAvatar">
+                                <img className="currentChatUserAvatar" src={currentChatUser?.avatar} />
                             </div>
-                        ))}
-                    </div>
-                    <div className="chatBoxBottom">
-                        <textarea className="chatBoxMessageInput" 
-                        placeholder='Напишите сообщение...' 
-                        onChange={(e)=>setNewMessage(e.target.value)}
-                        value={newMessage}
-                        />
-                        <button className="chatBoxSubmitButton" onClick={handleSubmit}><img className='chatBoxSubmitButton' src={sendButton} /></button>
-                    </div></> : <span className="noConversation"> Open a conversation to start a chat</span> }
+                            <div className="chatBoxInfoName">
+                                {currentChatUser?.lastName + " " + currentChatUser?.firstName}
+                            </div>
+                        </div>
+                        <div className="chatBoxTop">
+                            {messages.map(m=>(
+                                <div ref={scrollRef}>
+                                    <Message 
+                                    message={m} 
+                                    own={m.sender === userId}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="chatBoxBottom">
+                            <textarea className="chatBoxMessageInput" 
+                            placeholder='Напишите сообщение...' 
+                            onChange={(e)=>setNewMessage(e.target.value)}
+                            value={newMessage}
+                            />
+                            <button className="chatBoxSubmitButton" onClick={handleSubmit}><img className='chatBoxSubmitButton' src={sendButton} /></button>
+                        </div>
+                    </> 
+                    : 
+                    <span className="noConversation"> Open a conversation to start a chat</span> }
                 </div>
             </div>
             <div className="chatOnline">

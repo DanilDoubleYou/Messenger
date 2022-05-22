@@ -113,3 +113,27 @@
     max-height: 40px;
     max-height: 40px;
 }
+
+
+.chatBoxInfoWrapper{
+    background-color: #1877f2;
+    color: white;
+    height: 50px;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+}
+
+.currentChatUserAvatar{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.chatBoxInfoName{
+    font-weight: 400;
+}

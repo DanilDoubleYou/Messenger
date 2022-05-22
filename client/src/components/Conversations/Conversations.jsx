@@ -4,14 +4,14 @@ import axios from "axios"
 
 const Conversations = ({conversation, currentUserId}) => {
 
-    const [user, setUser] = useState(null)
+    const [friend, setFriend] = useState(null)
     
     useEffect(() => {
         const friendId = conversation.members.find((m) => m !== currentUserId)
         const getUser = async () => {
             try{
                 const res = await axios("/api/user?userId="+friendId)
-                setUser(res.data)
+                setFriend(res.data)
 
                 localStorage.setItem(res.data._id, res.data.avatar)
             } catch (e) {
@@ -19,17 +19,14 @@ const Conversations = ({conversation, currentUserId}) => {
             }
         }
         getUser()
-
-        
-
     }, [currentUserId, conversation])
 
     return (
         <div className="conversation">
             <img className="conversation-avatar" 
-            src={user ? user.avatar ? user.avatar : "http://localhost:3000/images/user/noAvatar.png" : ""}
+            src={friend ? friend.avatar ? friend.avatar : "http://localhost:3000/images/user/noAvatar.png" : ""}
             alt="" />
-            <span className="conversation-name"> { user ? `${user.firstName} ${user.lastName}` : "" } </span>
+            <span className="conversation-name"> { friend ? `${friend.firstName} ${friend.lastName}` : "" } </span>
         </div>
     );
 }
