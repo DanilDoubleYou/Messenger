@@ -5,7 +5,6 @@ import '../../components/ChatOnline/ChatOnline.scss'
 const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
     
     const [allUsers, setAllUsers] = useState([])
-
     useEffect(() =>{
         const getAllUsers = async () => {
           const res = await axios.get("/api/user/all")
@@ -35,7 +34,7 @@ const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
                         src={user.avatar}
                         alt=""
                         />
-                        <div className="chatOnlineBadge" />
+                        {user.isOnline ? <div className="chatOnlineBadge"/>: <></>}
                     </div>    
                     <span className="chatOnlineName">{user.lastName + ' ' + user.firstName}</span>
                 </div>    
