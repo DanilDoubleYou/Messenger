@@ -118,7 +118,7 @@ async (req, res) => {
                     userId: user.id,
                 })
             } else {
-              return res.status(401).json({success: false, message: 'Пароли не совпадают'});
+              return res.status(401).json({success: false, message: 'Неверный пароль'});
             }
         })
 

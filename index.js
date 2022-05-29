@@ -16,7 +16,7 @@ app.use((req, res, next) => {
   let hour = now.getHours()
   let minutes = now.getMinutes()
   let seconds = now.getSeconds()
-  let data = `${hour}:${minutes}:${seconds} ${req.method} ${host}:${port}${req.url} request`
+  let data = `${hour}:${minutes}:${seconds} ${req.method} ${req.url} request`
   console.log(data)
   next()
 })
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 app.use('/api', router)
 
 //host config
-const host = 'localhost'
+const host = '127.0.0.1'
 const port = process.env.PORT
 
 //server & mongodb start function

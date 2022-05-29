@@ -29,7 +29,6 @@ const Messenger = () => {
             if (!localStorage.getItem(userId)){
                 try{
                     const res = await axios("/api/user?userId="+userId)
-                    console.log(res)
                     localStorage.setItem(userId, res.data.avatar)
                 } catch(e){
                     console.error(e)

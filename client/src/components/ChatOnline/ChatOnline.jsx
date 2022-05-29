@@ -18,7 +18,7 @@ const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
             const res = await axios.get(`/api/conversation/find/${currentUserId}/${userId}`)
             setCurrentChat(res.data)
          } catch (e) {
-             console.error(e)
+            console.error(e)
          }
     }
 

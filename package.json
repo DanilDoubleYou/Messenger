@@ -7,7 +7,8 @@
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "dev": "npx concurrently \"npm run server\" \"npm run client\""
+    "socket": "npm run start --prefix socket",
+    "dev": "npx concurrently \"npm run socket\" \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "Danil Safronov",
