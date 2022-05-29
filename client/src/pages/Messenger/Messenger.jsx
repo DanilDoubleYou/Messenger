@@ -68,31 +68,20 @@ const Messenger = () => {
     useEffect(() => {
         const getData = async () => {
             try{
+                if(currentChat) {
+                    const res3 = await axios.get("/api/user?userId="+(currentChat.members.find((m) => m !== userId)))
+                    setCurrentChatUser(res3.data)
+                }
                 const res = await axios.get("/api/conversation/"+userId)
                 setConversations(res.data)
+                const res2 = await axios.get("/api/message/"+currentChat?._id)
+                setMessages(res2.data)
             } catch(e){
                 console.error(e)
             }
         }
         getData();
       }, [userId, currentChat])
-
-      useEffect(() => {
-        const getMessages = async () => {
-            try{
-                if(currentChat){
-                    const res = await axios.get("/api/message/"+currentChat?._id)
-                    setMessages(res.data)
-                    const res2 = await axios.get("/api/user?userId="+(currentChat.members.find((m) => m !== userId)))
-                    setCurrentChatUser(res2.data)
-                }
-            } catch (e) {
-                console.error(e)
-            }
-        }
-
-        getMessages()
-      }, [currentChat])
 
       const handleSubmit = async (e) => {
           
@@ -150,14 +139,17 @@ const Messenger = () => {
                             </div>
                         </div>
                         <div className="chatBoxTop">
-                            {messages.map(m=>(
+                            {messages.length !== 0 ? messages.map(m=>(
                                 <div ref={scrollRef}>
                                     <Message 
                                     message={m} 
                                     own={m.sender === userId}
                                     />
                                 </div>
-                            ))}
+                            ))
+                        :
+                        <> <span className="noConversation"> Нет сообщений </span> </>
+                        }
                         </div>
                         <div className="chatBoxBottom">
                             <textarea className="chatBoxMessageInput" 

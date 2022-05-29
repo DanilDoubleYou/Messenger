@@ -22,7 +22,7 @@ conversationRouter.get("/:userId", async (req, res) => {
     try{
         const conversation = await Conversation.find({
             members: { $in:[req.params.userId] },
-        })
+        }).sort('field -lastActive')
         
         res.status(200).json(conversation)
     } catch(e) {

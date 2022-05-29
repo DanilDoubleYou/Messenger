@@ -3,7 +3,7 @@ const { Schema, model, Types } = pkg;
 
 const MessageSchema = new Schema({
     conversationId: {
-        type: String, //Schema.Types.ObjectId?
+        type: String,
     },
     sender: {
         type: String,

@@ -11,6 +11,9 @@ const ChatOnline = ({onlineUsers, currentUserId, setCurrentChat}) => {
           setAllUsers(res.data.filter((user) => user._id !== currentUserId))
         }
         getAllUsers()
+        allUsers.map((user) => {
+            localStorage.setItem(user._id, user.avatar)
+        })
     }, [currentUserId, onlineUsers])
 
     const handleClick = async (userId) => {
